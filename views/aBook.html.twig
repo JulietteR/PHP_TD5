@@ -2,14 +2,19 @@
 {% extends 'layout.html.twig' %}
 
 {% block contents %}
-{% for book in books %}
-<a class="book" href="#">
-    {% if book.image %}
-        <img src="{{ app.request.basepath }}/uploads/{{ book.image }}_small.jpg" />
-    {% endif %}
-    <span class="t">{{ book.titre }} </span><br>
-    <em>{{ book.auteur }}</em><br/>
-    <p>coucou</p>
-</a>
-{% endfor %}
+<h2>Fiche du livre {{ aBook.titre }} :</h2>
+<div class="row">
+	<div class="col-xs-12 col-sm-4">
+		{% if aBook.image %}
+		<img src="{{ app.request.basepath }}/uploads/{{ aBook.image }}.jpg" />
+		{% endif %}
+	</div>
+	<div class="col-xs-12 col-sm-8">
+		<h3>{{ aBook.titre }}</h3>
+		<h4><em>Par {{ aBook.auteur }}</em></h4><br/> 
+		<em>{{ aBook.synopsis }}</em><br/> 
+	</div>
+</div>
+
+
 {% endblock %}

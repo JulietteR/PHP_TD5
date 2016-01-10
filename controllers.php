@@ -12,11 +12,12 @@ $app->match('/books', function() use ($app) {
     ));
 })->bind('books');
 
-$app->match('/aBook', function() use ($app) {
-    return $app['twig']->render('books.html.twig', array(
-        'books' => $app['model']->getBooks()
+$app->match('/aBook/{id}', function($id) use ($app) {
+     $book = $app['model']->getABook($id)[0];
+    return $app['twig']->render('aBook.html.twig', array(
+        'aBook' => $book
     ));
-})->bind('books');
+})->bind('aBook');
 
 $app->match('/admin', function() use ($app) {
     $request = $app['request'];
