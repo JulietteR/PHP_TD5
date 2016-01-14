@@ -107,11 +107,20 @@ class Model
 
         return $query->fetchAll();
     }
-     public function borrowABook($id, $personne, $debut, $fin)
+     public function borrowABook($personne, $exemplaires, $debut, $fin)
     {
-        $query = $this->pdo->prepare('INSERT INTO emprunts (id, personne,  debut, fin)
+        $query = $this->pdo->prepare('INSERT INTO emprunts (personne, exemplaire, debut, fin)
             VALUES (?, ?, ?, ?)');
-        $this->execute($query, array($id, $personne, $debut, $fin));
+        $this->execute($query, array($personne, $exemplaires, $debut, $fin));
+
+
+        return $query->fetchAll();
+    }
+
+    public function returnABook($id)
+    {
+        $query = $this->pdo->prepare('UPDATE emprunts SET fini = 1 WHERE id = :id');
+        $this->execute($query, array(':id' => $id));
 
 
         return $query->fetchAll();

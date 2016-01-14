@@ -13,9 +13,9 @@ $app->match('/books', function() use ($app) {
 })->bind('books');
 
 $app->match('/aBook/{id}', function($id) use ($app) {
- $book = $app['model']->getABook($id)[0];
- $exemplaires =  $app['model']->getExemplairesABook($id);
- return $app['twig']->render('aBook.html.twig', array(
+   $book = $app['model']->getABook($id)[0];
+   $exemplaires =  $app['model']->getExemplairesABook($id);
+   return $app['twig']->render('aBook.html.twig', array(
     'aBook' => $book,
     'exemplaires' => $exemplaires
     ));
@@ -24,21 +24,33 @@ $app->match('/aBook/{id}', function($id) use ($app) {
 $app->match('/loanABook/{id}', function($id) use ($app) {
     $request = $app['request'];
     $success = false;
+    $exemplaires =  $app['model']->getExemplairesABook($id);
     if ($request->getMethod() == 'POST') {
-     $post = $request->request;
-     $endingDateWithTime = $post->get('end_date')."/".date('H/i/s');
+       $post = $request->request;
+       $endingDateWithTime = $post->get('end_date')."/".date('H/i/s');
       // get end time and add the hour/minutes/seconds when the book as been rented.
-
+      
         // Saving the borrow to database
-     $app['model']->borrowABook($id, $post->get('borrower_name'), date('Y/m/d/H/i/s'), $endingDateWithTime   );
-     $success = true;
+        $app['model']->borrowABook($post->get('borrower_name'), $id,  date('Y/m/d/H/i/s'), $endingDateWithTime   );
+        $success = true;
 
- }
- return $app['twig']->render('loanABook.html.twig', array(
+    }
+    return $app['twig']->render('loanABook.html.twig', array(
     'success' => $success
     ));
 
 })->bind('loanABook');
+
+
+$app->match('/returnABook/{id}', function($id) use ($app) {
+      $app['model']->returnABook($id);
+
+ 
+ return $app['twig']->render('home.html.twig'); /*, array(
+    'success' => $success
+    ));*/
+ 
+})->bind('returnABook');
 
 
 

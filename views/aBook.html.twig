@@ -32,7 +32,7 @@
 
 				{% if app.session.get('admin') %}
 				<a href="{{ path('loanABook',  {id: exemplaire.id}) }}" class="btn btn-default">Emprunter</a>
-			{#	<a href="{{ path('loanABook') }}" class="btn btn-default">Retourner un emprunt</a> #}
+				<a href="{{ path('returnABook',  {id: exemplaire.id}) }}" class="btn btn-default">Retourner un emprunt</a> 
 				{% endif %}
 			
 			</div>
