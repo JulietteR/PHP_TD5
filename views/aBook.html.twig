@@ -1,0 +1,54 @@
+{% set books_active = 1 %}
+{% extends 'layout.html.twig' %}
+
+{% block contents %}
+<h2>Fiche du livre {{ aBook.titre }} :</h2>
+<div class="row">
+	<div class="col-xs-12 col-sm-4">
+		{% if aBook.image %}
+		<img src="{{ app.request.basepath }}/uploads/{{ aBook.image }}.jpg" />
+		{% endif %}
+	</div>
+	<div class="col-xs-12 col-sm-8">
+		<h3>{{ aBook.titre }}</h3>
+		<h4><em>Par {{ aBook.auteur }}</em></h4><br/> 
+		<em>{{ aBook.synopsis }}</em><br/>
+		{% set counter_exemplaires = 0 %} 
+		{% for exemplaire in exemplaires %}
+		<div>
+			{% set counter_exemplaires = counter_exemplaires + 1 %}
+		</div>
+		<div class="row bloc_emprunt">
+			<div class="col-xs-12">
+				Exemplaire n°{{ counter_exemplaires }}
+			</div>
+			<div class="col-xs-12">
+				ID de l'exemplaire : {{ exemplaire.id }}
+			</div>
+			<div class="col-xs-12">
+				Etat : Disponible
+			</div>
+			<div class="col-xs-12">
+
+				{% if app.session.get('admin') %}
+				<a href="{{ path('loanABook',  {id: exemplaire.id}) }}" class="btn btn-default">Emprunter</a>
+			{#	<a href="{{ path('loanABook') }}" class="btn btn-default">Retourner un emprunt</a> #}
+				{% endif %}
+			
+			</div>
+		</div>
+
+
+
+		{% endfor %}
+		<p>Nombre d'exemplaires total : {{ counter_exemplaires }}</p>
+		<p>Nombre d'exemplaires disponibles : {{ counter_exemplaires }}</p>
+
+
+
+	</div>
+
+</div>
+
+
+{% endblock %}
