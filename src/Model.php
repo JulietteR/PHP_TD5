@@ -126,11 +126,31 @@ class Model
         return $query->fetchAll();
     }
 
-     public function getExemplaireBorrowed($id)
+     public function getExemplaireBorrowed()
     {
         $query = $this->pdo->prepare('SELECT emprunts.* FROM emprunts WHERE fini = 0');
 
-        $this->execute($query, array(':id' => $id));
+        $this->execute($query);
+     
+
+        return $query->fetchAll();
+    }
+
+     public function getNbOfExemplairesBorrowed()
+    {
+        $query = $this->pdo->prepare('SELECT COUNT(*) FROM emprunts WHERE fini = 0');
+
+        $this->execute($query);
+     
+
+        return $query->fetchAll();
+    }
+
+    public function getTotalExemplaires()
+    {
+        $query = $this->pdo->prepare('SELECT COUNT(*) FROM exemplaires');
+
+        $this->execute($query);
      
 
         return $query->fetchAll();

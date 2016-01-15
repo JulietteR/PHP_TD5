@@ -15,11 +15,16 @@ $app->match('/books', function() use ($app) {
 $app->match('/aBook/{id}', function($id) use ($app) {
    $book = $app['model']->getABook($id)[0];
    $exemplaires =  $app['model']->getExemplairesABook($id);
-   $emprunts =  $app['model']->getExemplaireBorrowed($id);
+   $emprunts =  $app['model']->getExemplaireBorrowed();
+   $nbExEmpruntes = $app['model']->getNbOfExemplairesBorrowed()[0][0];;
+   $nbTotalExemplaires = $app['model']->getTotalExemplaires()[0][0];
+var_dump($nbExEmpruntes);
    return $app['twig']->render('aBook.html.twig', array(
     'aBook' => $book,
     'exemplaires' => $exemplaires,
-    'emprunts' => $emprunts
+    'emprunts' => $emprunts,
+    'nb_ex_empruntes' => $nbExEmpruntes,
+    'total_exemplaire' => $nbTotalExemplaires
     ));
 })->bind('aBook');
 

@@ -14,6 +14,7 @@
 		<h4><em>Par {{ aBook.auteur }}</em></h4><br/> 
 		<em>{{ aBook.synopsis }}</em><br/>
 	</div>
+
 	<div class="col-xs-12">
 		{% set counter_exemplaires = 0 %} 
 		{% for exemplaire in exemplaires %}
@@ -77,10 +78,11 @@
 
 		{% endfor %}
 
-		<div class="col-xs-6 bloc_emprunt_end">
+		<div class="col-xs-12 bloc_emprunt_end">
 
 			<p>Nombre d'exemplaires total : {{ counter_exemplaires }}</p>
-			<p>Nombre d'exemplaires disponibles : {{ counter_exemplaires }}</p>
+			<p>Nombre total de livres disponibles à l'emprunt : {{ total_exemplaire - nb_ex_empruntes }}			
+			</p>
 
 
 		</div>
