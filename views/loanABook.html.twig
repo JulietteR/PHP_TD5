@@ -1,0 +1,18 @@
+{% set admin_active = 1 %}
+{% extends 'layout.html.twig' %}
+
+{% block contents %}
+{% if success %}
+<div class="alert alert-success loginsuccess">
+    Livre emprunté avec succès !
+{% endif %}
+
+<form method="post">
+    <b>Nom de l'emprunteur </b>: 
+    <input class="form-control" type="text" name="borrower_name" />
+    <b>Date de fin </b>:
+    <input class="form-control" type="date" name="end_date" />
+    <br/>
+    <input type="submit" class="btn btn-success" value="Emprunter" />
+</form>
+{% endblock %}
