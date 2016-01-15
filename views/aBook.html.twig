@@ -20,8 +20,32 @@
 		<div>
 			{% set counter_exemplaires = counter_exemplaires + 1 %}
 
+					{% set var = false %}
+					{% set date_emprunt =  "Non définie" %}
 		</div>
-		<div class="col-xs-6 bloc_emprunt">
+		
+			{% if    not emprunts|length < 1 %} 
+			{# on test si le tableau n'est pas vide (a moins d'un résultat en l'occurence) (fix du cas où tous les champs fini sont à 1 #}				
+
+				{% if app.session.get('admin') %}
+					{% for emprunt in emprunts %} 
+
+						{% if  (emprunt.exemplaire == exemplaire.id) or not (emprunt.exemplaire is defined)  %}
+							
+						{# si l'id de l'exemplaire ne correspond pas à l'id d'un exemplaire emprunté ou que emprunt n'est pas défini (cas ou les livres n'ont pas été empruntés une fois au moins) alors on affiche la possilibité d'emprunter, sinon le livre est emprunté et on désactive la possibilité d'emprunter #}
+						{% set var = true %}
+						{% set date_emprunt =  emprunt.fin %}
+				
+
+					
+						{% endif %}
+					{% endfor %}
+
+				{% endif %}
+			
+			{% endif %}
+		</div>
+	<div class="col-xs-6 bloc_emprunt">
 			<div class="col-xs-12">
 				Exemplaire n°{{ counter_exemplaires }}
 			</div>
@@ -29,44 +53,30 @@
 				ID de l'exemplaire : {{ exemplaire.id }}
 			</div>
 
-			{% if    not emprunts|length < 1 %} 
-			{# on test si le tableau n'est pas vide (a moins d'un résultat en l'occurence) (fix du cas où tous les champs fini sont à 1 #}				
+			{% if var == true %}
+				<div class="col-xs-12">Etat : Indisponible</div>
+				 <div class="col-xs-12">Date de retour prévisionelle : {{ date_emprunt }}</div>
 
-			{% if app.session.get('admin') %}
-			{% for emprunt in emprunts %} 
-			{% if not (emprunt.exemplaire == exemplaire.id) or not (emprunt.exemplaire is defined)  %}
-			{# si l'id de l'exemplaire ne correspond pas à l'id d'un exemplaire emprunté ou que emprunt n'est pas défini (cas ou les livres n'ont pas été empruntés une fois au moins) alors on affiche la possilibité d'emprunter, sinon le livre est emprunté et on désactive la possibilité d'emprunter #}
-			<div class="col-xs-12">Etat : Disponible</div>
-
-			<div class="col-xs-12">
-				<a href="{{ path('loanABook',  {id: exemplaire.id}) }}" class="btn btn-success btn-default">Emprunter</a>
-				<div disabled class="btn btn-default">Retourner un emprunt</div> 
-
-			</div>
+				<div class="col-xs-12">
+					<div disabled class="btn btn-default">Emprunter</div>
+					<a href="{{ path('returnABook',  {id: exemplaire.id}) }}" class="btn btn-primary btn-default">Retourner un emprunt</a> 
+				</div>
 			{% else %}
+	
 
-			<div class="col-xs-12">Etat : Indisponible</div>
-			<div class="col-xs-12">Date de retour prévisionelle : {{ emprunt.fin }}</div>
-
-			<div class="col-xs-12">
-				<div disabled class="btn btn-default">Emprunter</div>
-				<a href="{{ path('returnABook',  {id: exemplaire.id}) }}" class="btn btn-primary btn-default">Retourner un emprunt</a> 
-			</div>
-			{% endif %}
-			{% endfor %}
-
-			{% endif %}
-			{% else %} {# si on rentre bien dans le cas du tableau non défini, on déclare que tous les bouquins sont dispo #}
 			<div class="col-xs-12">Etat : Disponible</div>
+			<div class="col-xs-12">Date de retour prévisionelle : {{ date_emprunt }}</div>
+
+
 			<div class="col-xs-12">
 				<a href="{{ path('loanABook',  {id: exemplaire.id}) }}" class="btn btn-success btn-default">Emprunter</a>
 				<div disabled class="btn btn-default">Retourner un emprunt</div> 
 
-			</div>	
+			</div>
 			{% endif %}
-		</div>
 
 		{% endfor %}
+
 		<div class="col-xs-6 bloc_emprunt_end">
 
 			<p>Nombre d'exemplaires total : {{ counter_exemplaires }}</p>
