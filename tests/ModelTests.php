@@ -19,7 +19,9 @@ class ModelTests extends BaseTests
         $this->assertEquals(1, count($books));
 
         // TODO: Vérifier que 3 exemplaires ont été créés
+
         $exemplairesBooks = $this->app['model']->getExemplairesBooks();
         $this->assertEquals(3, count($exemplairesBooks));
+
     }
 }

@@ -59,7 +59,5 @@ class SiteTests extends BaseTests
         $books = $this->app['model']->getBooks();
         $this->assertEquals(1, count($books));
 
-     
-
     }
 }
