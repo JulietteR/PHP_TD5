@@ -17,12 +17,14 @@
 
 	<div class="col-xs-12">
 		{% set counter_exemplaires = 0 %} 
+		{% set counter_exemplaires_borrowed =  0 %}
+
 		{% for exemplaire in exemplaires %}
 		<div>
-			{% set counter_exemplaires = counter_exemplaires + 1 %}
-
+		
 					{% set var = false %}
 					{% set date_emprunt =  "Non définie" %}
+					
 		</div>
 		
 			{% if    not emprunts|length < 1 %} 
@@ -35,6 +37,10 @@
 							
 						{# si l'id de l'exemplaire ne correspond pas à l'id d'un exemplaire emprunté ou que emprunt n'est pas défini (cas ou les livres n'ont pas été empruntés une fois au moins) alors on affiche la possilibité d'emprunter, sinon le livre est emprunté et on désactive la possibilité d'emprunter #}
 						{% set var = true %}
+						{% set counter_exemplaires = counter_exemplaires + 1 %}
+						{% set counter_exemplaires_borrowed	 = counter_exemplaires_borrowed	 + 1 %}
+
+
 						{% set date_emprunt =  emprunt.fin %}
 				
 
@@ -77,13 +83,14 @@
 			{% endif %}
 
 		{% endfor %}
+		<div class="row" style="padding-left:25px">
 
-		<div class="col-xs-12 bloc_emprunt_end">
+			<div class="col-xs-12 bloc_emprunt_end">
 
-			<p>Nombre d'exemplaires total : {{ counter_exemplaires }}</p>
-			<p>Nombre total de livres disponibles à l'emprunt : {{ total_exemplaire - nb_ex_empruntes }}			
-			</p>
-
+				<p>Nombre d'exemplaires total :  {{ total_exemplaire }}</p>
+				<p>Nombre total de livres disponibles à l'emprunt : {{ total_exemplaire - counter_exemplaires_borrowed }}			
+				</p>
+			</div>
 
 		</div>
 	</div>
