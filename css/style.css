@@ -32,6 +32,24 @@ h1 {
 }
 
 .bloc_emprunt {
-    padding: 10px 0;
+    padding: 40px 0;
     line-height: 1.8;
+    border-bottom: dotted 1px;
+}
+
+.bloc_emprunt_end {
+    padding: 40px 0;
+    line-height: 1.8;
+}
+
+.btn-primary {
+    color: #337ab7;
+    background-color: transparent;
+    border-color: #2e6da4;
+}
+
+.btn-success {
+    color: #4cae4c;
+    background-color: transparent;
+    border-color: #4cae4c;
 }

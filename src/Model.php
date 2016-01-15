@@ -119,9 +119,19 @@ class Model
 
     public function returnABook($id)
     {
-        $query = $this->pdo->prepare('UPDATE emprunts SET fini = 1 WHERE id = :id');
+        $query = $this->pdo->prepare('UPDATE emprunts SET fini = 1 WHERE exemplaire = :id');
         $this->execute($query, array(':id' => $id));
 
+
+        return $query->fetchAll();
+    }
+
+     public function getExemplaireBorrowed($id)
+    {
+        $query = $this->pdo->prepare('SELECT emprunts.* FROM emprunts WHERE fini = 0');
+
+        $this->execute($query, array(':id' => $id));
+     
 
         return $query->fetchAll();
     }
